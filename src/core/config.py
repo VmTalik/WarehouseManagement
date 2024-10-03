@@ -3,6 +3,12 @@ from pydantic import BaseModel
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
+class RunConfig(BaseModel):
+    host: str = "0.0.0.0"
+    port: int = 8000
+    reload: bool = True
+
+
 class EngineConfig(BaseModel):
     echo: bool = False
     echo_pool: bool = False
@@ -17,6 +23,7 @@ class Settings(BaseSettings):
     DB_HOST: str
     DB_PORT: int
     engine_config: EngineConfig = EngineConfig()
+    run_config: RunConfig = RunConfig()
     model_config = SettingsConfigDict(
         env_file=os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../", ".env"),
         case_sensitive=False,
