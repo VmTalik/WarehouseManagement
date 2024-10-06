@@ -4,8 +4,8 @@ from schemas.order_item import OrderItemReadForProduct
 
 
 class ProductBase(BaseModel):
-    name: str = Field(..., max_length=80, description="Название")
-    description: Optional[str] = Field(default=None, min_length=2, max_length=700, description="Описание")
+    name: str = Field(..., min_length=2, max_length=80, description="Название")
+    description: Optional[str] = Field(default=None, max_length=700, description="Описание")
     price: PositiveInt = Field(..., description="Цена")
     quantity: PositiveInt = Field(..., description="Количество на складе")
 
