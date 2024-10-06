@@ -18,5 +18,5 @@ class StatusEnum(str, Enum):
 class Order(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
-    status: Mapped[StatusEnum]
+    status: Mapped[StatusEnum] = mapped_column(default=StatusEnum.during)
     order_items: Mapped[list["OrderItem"]] = relationship(back_populates="order")

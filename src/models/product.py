@@ -9,7 +9,7 @@ if TYPE_CHECKING:
 
 class Product(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(String(80))
+    name: Mapped[str] = mapped_column(String(80), unique=True)
     description: Mapped[str] = mapped_column(Text)
     price: Mapped[int]
     quantity: Mapped[int]
