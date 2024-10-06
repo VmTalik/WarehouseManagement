@@ -22,7 +22,6 @@ class ProductCRUDRepository(BaseCRUDRepository):
 
     async def get_product_by_id(self, product_id: int) -> Product | None:
         stmt = select(Product).where(Product.id == product_id).options(selectinload(Product.order_items))
-        # result = await self.async_session.get(Product, product_id)  # либо просто так вместо всего
         result = await self.async_session.execute(stmt)
         product = result.scalar_one_or_none()
         if not product:
@@ -36,7 +35,6 @@ class ProductCRUDRepository(BaseCRUDRepository):
         for name, value in product_update.model_dump().items():
             setattr(product, name, value)
         await self.async_session.commit()
-        # await self.async_session.refresh(product)
         return product
 
     async def delete_product(self, product_id) -> None:
@@ -45,4 +43,3 @@ class ProductCRUDRepository(BaseCRUDRepository):
             raise HTTPException(status_code=404, detail="Товар не найден!")
         await self.async_session.delete(product)
         await self.async_session.commit()
-        await self.async_session.refresh(product)
