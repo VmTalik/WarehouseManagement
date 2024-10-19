@@ -31,7 +31,7 @@ class ProductCRUDRepository(BaseCRUDRepository):
     async def update_product(self, product_id, product_update: ProductUpdate) -> Product | None:
         product = await self.async_session.get(Product, product_id)
         if not product:
-            raise HTTPException(status_code=404, detail="Товар не найден!")
+            raise HTTPException(status_code=404, detail="Обновление невозможно, товар не найден!")
         for name, value in product_update.model_dump().items():
             setattr(product, name, value)
         await self.async_session.commit()
@@ -40,6 +40,6 @@ class ProductCRUDRepository(BaseCRUDRepository):
     async def delete_product(self, product_id) -> None:
         product = await self.async_session.get(Product, product_id)
         if not product:
-            raise HTTPException(status_code=404, detail="Товар не найден!")
+            raise HTTPException(status_code=404, detail="Удаление невозможно, товар не найден!")
         await self.async_session.delete(product)
         await self.async_session.commit()
