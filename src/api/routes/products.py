@@ -1,5 +1,11 @@
 from fastapi import APIRouter, status, Depends
-from schemas import ProductCreate, ProductCreateResponse, ProductReadResponse, ProductUpdate, ProductUpdateResponse
+from schemas import (
+    ProductCreate,
+    ProductCreateResponse,
+    ProductReadResponse,
+    ProductUpdate,
+    ProductUpdateResponse
+)
 from crud import ProductCRUDRepository
 from api.dependencies import get_repository
 
@@ -45,4 +51,4 @@ async def delete_product(
         id: int,
         product_repo: ProductCRUDRepository = Depends(get_repository(repo_type=ProductCRUDRepository))
 ):
-    return await product_repo.delete_product(product_id=id)
+    await product_repo.delete_product(product_id=id)
