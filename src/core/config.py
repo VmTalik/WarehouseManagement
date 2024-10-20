@@ -16,12 +16,21 @@ class EngineConfig(BaseModel):
     pool_size: int = 5
 
 
-class Settings(BaseSettings):
+class DBConfig(BaseModel):
     DB_NAME: str
     DB_USER: str
     DB_PASSWORD: str
     DB_HOST: str
     DB_PORT: int
+
+
+class TestDBConfig(DBConfig):
+    pass
+
+
+class Settings(BaseSettings):
+    db_config: DBConfig
+    test_db_config: TestDBConfig
     engine_config: EngineConfig = EngineConfig()
     run_config: RunConfig = RunConfig()
     model_config = SettingsConfigDict(
@@ -34,6 +43,11 @@ class Settings(BaseSettings):
 settings = Settings()
 
 
-def get_db_url() -> str:
-    return (f"postgresql+asyncpg://{settings.DB_USER}:{settings.DB_PASSWORD}@"
-            f"{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_NAME}")
+def get_db_url(test_db: bool = False) -> str:
+    config: DBConfig = settings.db_config
+    if test_db:
+        config: TestDBConfig = settings.test_db_config
+
+    return (f"postgresql+asyncpg://{config.DB_USER}:{config.DB_PASSWORD}@"
+            f"{config.DB_HOST}:{config.DB_PORT}/{config.DB_NAME}")
+
