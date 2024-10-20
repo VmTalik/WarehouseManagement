@@ -5,16 +5,20 @@ from core import db_helper, settings
 from api import router as api_router
 
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    # startup
-    yield
-    # shutdown
-    await db_helper.dispose()
+def create_app() -> FastAPI:
+    @asynccontextmanager
+    async def lifespan(app: FastAPI):
+        # startup
+        yield
+        # shutdown
+        await db_helper.dispose()
+
+    main_app = FastAPI(lifespan=lifespan)
+    main_app.include_router(api_router)
+    return main_app
 
 
-main_app = FastAPI(lifespan=lifespan)
-main_app.include_router(api_router)
+main_app = create_app()
 
 if __name__ == "__main__":
     uvicorn.run(
