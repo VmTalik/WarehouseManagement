@@ -1,0 +1,6 @@
+FAILED_CREATE_PRODUCT = "Не удалось создать товар"
+FAILED_GET_PRODUCT = "Не удалось получить товар"
+FAILED_GET_PRODUCTS = "Не удалось получить товары "
+FAILED_UPDATE_PRODUCT = "Не удалось обновить товар"
+FAILED_DELETE_PRODUCT = "Не удалось удалить товар"
+FAILED_NUMBER_OF_PRODUCTS = "Неправильное полученное количество товаров, должно быть "
